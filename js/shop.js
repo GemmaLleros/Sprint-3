@@ -76,11 +76,12 @@ function buy(id) {
     // 1. Loop for to the array products to get the item to add to cart  
     // 2. Add found product to the cartList array
     for (let i = 0; i < products.length; i++) {
-        if (products[i].id === id) cartList.push(products[i])  
+        if (products[i].id === id) cartList.push(products[i]);  
     }
   document.getElementById("count_product").innerHTML = cartList.length
   console.log(cartList)
   calculateTotal()
+  generateCart()
 }
 
 
@@ -110,23 +111,40 @@ function generateCart() {
     // Using the "cartlist" array that contains all the items in the shopping cart, 
     // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
     cart = []
-    for (let i = 0; i < cartList.length; index++) {
-        const product = cartList[i]
+    for (let i = 0; i < cartList.length; i++) {
+        const product = cartList[i];
         const productExist = cart.includes(product)
         if(!productExist){
-            product.quantity = 1
+            product.quantity = 1;
+            product.subtotal = product.price;
             cart.push(product)
         }
         if(productExist){
-            product.quantity += 1
+            product.quantity += 1;
+            product.subtotal += product.price;
         }
-    }
-    
+    }   
+    console.log(cart)
+    applyPromotionsCart()
+    calculateTotal()
 }
 
 // Exercise 5
 function applyPromotionsCart() {
     // Apply promotions to each item in the array "cart"
+    for (let i = 0; i < cart.length; i++){
+        const existDiscount = cart[i].offer;
+        const applyDiscount = existDiscount && cart[i].quantity >= cart[i].offer.number;
+        if (applyDiscount){
+            const percent = cart[i].offer.percent / 100
+            const discount = subtotal * percent
+            cart[i].subtotalWithDiscount = cart[i].subtotal - discount;
+                
+        }
+        else if (!applyDiscount) {
+            delete (cart[i].subtotalWithDiscount)
+        }
+    }
 }
 
 // Exercise 6
