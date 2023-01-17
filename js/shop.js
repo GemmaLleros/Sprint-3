@@ -75,13 +75,17 @@ var total = 0;
 function buy(id) {
     // 1. Loop for to the array products to get the item to add to cart  
     // 2. Add found product to the cartList array
-    for (let i = 0; i < products.length; i++) {
-        if (products[i].id === id) cartList.push(products[i]);  
-    }
-  document.getElementById("count_product").innerHTML = cartList.length
-  console.log(cartList)
-  calculateTotal()
-  generateCart()
+    /*for (let i = 0; i < products.length; i++) {
+        if (products[i].id === id) {
+            cartList.push(products[i])
+        }
+    }*/
+    const product = products.find(product => id === product.id)
+    cartList.push(product)
+    document.getElementById("count_product").innerHTML = cartList.length
+    console.log(cartList)
+    calculateTotal()
+    generateCart()
 }
 
 
@@ -89,9 +93,10 @@ function buy(id) {
 function cleanCart() {
     cartList = []
     total = 0
-    document.getElementById("total_price").innerHTML = 0
+    /*document.getElementById("total_price").innerHTML = 0
     document.getElementById("count_product").innerHTML = 0
-    document.getElementById("cart_list").innerHTML = ""
+    document.getElementById("cart_list").innerHTML = ""*/
+    printCart()
 }
 
 
@@ -99,57 +104,86 @@ function cleanCart() {
 function calculateTotal() {
     // Calculate total price of the cart using the "cartList" array
     total = 0
-    for (let i = 0; i < cartList.length; i++) {
+    /*for (let i = 0; i < cartList.length; i++) {
         total += cartList[i].price   
+    }*/
+    for (let i = 0; i < cart.length; i++) {
+        if (cart[i].subtotalWithDiscount) {
+        total += cart[i].subtotalWithDiscount
+        }
+        if (cart[i].subtotal) {
+        total += cart[i].subtotal
+        }
     }
     console.log(total)
-    document.getElementById("total_price").innerHTML = total
+    document.getElementById("total_price").innerHTML = total;
 }
+
 
 // Exercise 4
 function generateCart() {
     // Using the "cartlist" array that contains all the items in the shopping cart, 
     // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
-    cart = []
+    cart = [] // Important to clean cart
     for (let i = 0; i < cartList.length; i++) {
-        const product = cartList[i];
+        const product = cartList[i]
         const productExist = cart.includes(product)
-        if(!productExist){
-            product.quantity = 1;
-            product.subtotal = product.price;
+
+        if (!productExist) {
+            product.quantity = 1
+            product.subtotal = product.price
             cart.push(product)
         }
-        if(productExist){
-            product.quantity += 1;
-            product.subtotal += product.price;
+
+        if (productExist) {
+            product.quantity += 1
+            product.subtotal += product.price
+
         }
     }   
     console.log(cart)
     applyPromotionsCart()
     calculateTotal()
+    printCart()
 }
 
 // Exercise 5
 function applyPromotionsCart() {
     // Apply promotions to each item in the array "cart"
-    for (let i = 0; i < cart.length; i++){
-        const existDiscount = cart[i].offer;
-        const applyDiscount = existDiscount && cart[i].quantity >= cart[i].offer.number;
-        if (applyDiscount){
+    for (let i = 0; i < cart.length; i++) {
+        const existDiscount = cart[i].offer
+        const ApplyDiscount = existDiscount && cart[i].quantity >= cart[i].offer.number
+        if (ApplyDiscount) {
             const percent = cart[i].offer.percent / 100
-            const discount = subtotal * percent
-            cart[i].subtotalWithDiscount = cart[i].subtotal - discount;
-                
+            const discount = cart[i].subtotal * percent
+            cart[i].subtotalWithDiscount = cart[i].subtotal - discount
         }
-        else if (!applyDiscount) {
+        else if (!ApplyDiscount) {
             delete (cart[i].subtotalWithDiscount)
         }
+
     }
 }
 
 // Exercise 6
 function printCart() {
     // Fill the shopping cart modal manipulating the shopping cart dom
+    let countProduct = 0;
+    let tabList = [];
+    cart.forEach((prod) => {
+        countProduct += prod.quantity;
+        tabList.push( 
+        `<tr>
+            <th scope="row">${prod.name}</th>
+            <td>$${prod.price}</td>
+            <td>${prod.quantity}</td>
+            <td>$${prod.subtotalWithDiscount ? prod.subtotalWithDiscount : prod.subtotal}</td>   
+        </tr> `
+        );
+    });
+    document.getElementById("cart_list").innerHTML = tabList;
+    document.getElementById("count_product").innerHTML = countProduct;
+    document.getElementById("total_price").innerHTML = total.toFixed(2);   
 }
 
 
