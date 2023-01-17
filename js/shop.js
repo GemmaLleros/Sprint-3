@@ -93,6 +93,7 @@ function buy(id) {
 function cleanCart() {
     cartList = []
     total = 0
+    cart = []
     /*document.getElementById("total_price").innerHTML = 0
     document.getElementById("count_product").innerHTML = 0
     document.getElementById("cart_list").innerHTML = ""*/
