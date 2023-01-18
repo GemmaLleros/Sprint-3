@@ -145,7 +145,6 @@ function generateCart() {
     console.log(cart)
     applyPromotionsCart()
     calculateTotal()
-    printCart()
 }
 
 // Exercise 5
@@ -171,8 +170,7 @@ function printCart() {
     // Fill the shopping cart modal manipulating the shopping cart dom
     let countProduct = 0;
     let tabList = [];
-    cart.forEach((prod) => {
-        countProduct += prod.quantity;
+    cart.forEach((prod) => {countProduct += prod.quantity;
         tabList.push( 
         `<tr>
             <th scope="row">${prod.name}</th>
@@ -188,19 +186,48 @@ function printCart() {
 }
 
 
+// Exercise 7 at checkout.js
 // ** Nivell II **
 
-// Exercise 7
+// Exercise 8
 function addToCart(id) {
     // Refactor previous code in order to simplify it 
-    // 1. Loop for to the array products to get the item to add to cart
+    // 1. Loop for to the array products to get the item to add to cart 
     // 2. Add found product to the cart array or update its quantity in case it has been added previously.
+    for (let i = 0; i < products.length; i++) {
+        if (products[i].id === id) {
+            const productSelected = products[i]
+            const productExist = cart.includes(productSelected)
+            if (!productExist) {
+                productSelected.quantity = 1
+                productSelected.subtotal = productSelected.price
+                cart.push(productSelected)
+            }
+            if (productExist) {
+                productSelected.quantity += 1
+                productSelected.subtotal += productSelected.price
+            }
+        }
+    }
+    applyPromotionsCart(cart);
+    calculateTotal();
+    printCart();
 }
 
-// Exercise 8
+// Exercise 9
 function removeFromCart(id) {
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cartList array
+    const removeProduct = cart.find(product => product.id === id)
+    removeProduct.quantity --
+    removeProduct.subtotal -= removeProduct.price
+    if(removeProduct.quantity === 0){
+        const indexOfRemoveProduct = cart.findIndex(product => product.id === id)
+        cart.splice(indexOfRemoveProduct,1)
+    }
+    applyPromotionsCart(cart);
+    calculateTotal();
+    printCart();
 }
 
 function open_modal(){
