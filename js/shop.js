@@ -75,17 +75,13 @@ var total = 0;
 function buy(id) {
     // 1. Loop for to the array products to get the item to add to cart  
     // 2. Add found product to the cartList array
-    /*for (let i = 0; i < products.length; i++) {
+    for (let i = 0; i < products.length; i++) {
         if (products[i].id === id) {
             cartList.push(products[i])
         }
-    }*/
-    const product = products.find(product => id === product.id)
-    cartList.push(product)
-    document.getElementById("count_product").innerHTML = cartList.length
-    console.log(cartList)
+    }
     calculateTotal()
-    generateCart()
+    addToCart(id)
 }
 
 
@@ -129,7 +125,6 @@ function generateCart() {
     for (let i = 0; i < cartList.length; i++) {
         const product = cartList[i]
         const productExist = cart.includes(product)
-
         if (!productExist) {
             product.quantity = 1
             product.subtotal = product.price
@@ -139,18 +134,19 @@ function generateCart() {
         if (productExist) {
             product.quantity += 1
             product.subtotal += product.price
-
         }
     }   
-    console.log(cart)
-    applyPromotionsCart()
-    calculateTotal()
+    console.log(cart);
+    applyPromotionsCart();
+    calculateTotal();
+    printCart();
 }
 
 // Exercise 5
-function applyPromotionsCart() {
+function applyPromotionsCart(cart) {
     // Apply promotions to each item in the array "cart"
     for (let i = 0; i < cart.length; i++) {
+
         const existDiscount = cart[i].offer
         const ApplyDiscount = existDiscount && cart[i].quantity >= cart[i].offer.number
         if (ApplyDiscount) {
@@ -161,7 +157,6 @@ function applyPromotionsCart() {
         else if (!ApplyDiscount) {
             delete (cart[i].subtotalWithDiscount)
         }
-
     }
 }
 
@@ -203,6 +198,7 @@ function addToCart(id) {
                 productSelected.subtotal = productSelected.price
                 cart.push(productSelected)
             }
+
             if (productExist) {
                 productSelected.quantity += 1
                 productSelected.subtotal += productSelected.price
@@ -218,12 +214,12 @@ function addToCart(id) {
 function removeFromCart(id) {
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cartList array
-    const removeProduct = cart.find(product => product.id === id)
-    removeProduct.quantity --
+    const removeProduct = cart.find(product => product.id === id);
+    removeProduct.quantity -= 1;
     removeProduct.subtotal -= removeProduct.price
     if(removeProduct.quantity === 0){
         const indexOfRemoveProduct = cart.findIndex(product => product.id === id)
-        cart.splice(indexOfRemoveProduct,1)
+        cart.splice(indexOfRemoveProduct, 1)
     }
     applyPromotionsCart(cart);
     calculateTotal();
