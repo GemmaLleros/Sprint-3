@@ -191,17 +191,17 @@ function addToCart(id) {
     // 2. Add found product to the cart array or update its quantity in case it has been added previously.
     for (let i = 0; i < products.length; i++) {
         if (products[i].id === id) {
-            const productSelected = products[i]
-            const productExist = cart.includes(productSelected)
+            const productSelected = products[i];
+            const productExist = cart.includes(productSelected);
             if (!productExist) {
-                productSelected.quantity = 1
-                productSelected.subtotal = productSelected.price
-                cart.push(productSelected)
+                productSelected.quantity = 1;
+                productSelected.subtotal = productSelected.price;
+                cart.push(productSelected);
             }
 
             if (productExist) {
-                productSelected.quantity += 1
-                productSelected.subtotal += productSelected.price
+                productSelected.quantity += 1;
+                productSelected.subtotal += productSelected.price;
             }
         }
     }
@@ -215,12 +215,12 @@ function removeFromCart(id) {
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cartList array
     const removeProduct = cart.find(product => product.id === id);
-    removeProduct.quantity -= 1;
-    removeProduct.subtotal -= removeProduct.price
+    removeProduct.quantity --;
+    removeProduct.subtotal -= removeProduct.price;
     if(removeProduct.quantity === 0){
-        const indexOfRemoveProduct = cart.findIndex(product => product.id === id)
-        cart.splice(indexOfRemoveProduct, 1)
-    }
+        const indexOfRemoveProduct = cart.findIndex(product => product.id === id);
+        cart.splice(indexOfRemoveProduct, 1);
+    };
     applyPromotionsCart(cart);
     calculateTotal();
     printCart();
