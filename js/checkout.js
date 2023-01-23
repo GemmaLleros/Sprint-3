@@ -18,7 +18,7 @@ function addInvalidClass(element, error) {
 // Exercise 7
 function validate() {
 	let error = 0;
-	let checkOutForm = document.getElementById("checkOutForm")
+	let checkOutForm = document.getElementById("checkOutForm");
 	// Get the input fields
 	let fName = document.getElementById("fName");
 	let fEmail = document.getElementById("fEmail");
@@ -43,15 +43,13 @@ function validate() {
 	} else {
 		addInvalidClass(fName, false)
 	}
-
-	if(fEmail.value === "" || !validateEmail || fEmail.value.length <3){
+	if(fEmail.value === "" || !validateEmail || fEmail.value.length < 3){
 		addInvalidClass(fEmail,true)
 		error++;
 	} else{
 		addInvalidClass(fEmail,false)
 	}
-
-	if(fAddress.value === "" || fAddress.value.length <3){
+	if(fAddress.value === "" || fAddress.value.length < 3){
 		addInvalidClass(fAddress,true)
 		error++;
 	} else{
@@ -76,10 +74,9 @@ function validate() {
 	}else{
 		addInvalidClass(fPassword, false)
 	}
-	 
 	if (error > 0) {
 		checkOutForm.addEventListener("submit",(e) => {e.preventDefault(); },);
-	  } else{
+	}else{
 		alert("OK");
 	}	
 }
