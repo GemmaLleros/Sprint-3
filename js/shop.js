@@ -90,7 +90,7 @@ function buy(id) {
 
 // Exercise 2
 function cleanCart() {
-//    cartList = [];
+// cartList = [];
     cart = [];
     document.getElementById("total_price").innerHTML = (totalPrice = 0)
     document.getElementById("count_product").innerHTML = (countProduct = 0)
