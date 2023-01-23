@@ -5,16 +5,16 @@ function validateEmail(email) {
 	  .match(
 		/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 	  );
-  };
+};
   
-  function addInvalidClass(element, error) {
+function addInvalidClass(element, error) {
 	if (error) {
 	  element.classList.add("is-invalid");
 	} else {
 	  element.classList.remove("is-invalid");
 	  element.classList.add("is-valid");
 	}
-  };
+};
 // Exercise 7
 function validate() {
 	let error = 0;
@@ -31,15 +31,14 @@ function validate() {
 	// Get the error elements
 	let errorName = document.getElementById("errorName");
 	let errorEmail = document.getElementById("errorEmail");
-	let errorAddress = document.getElementById("errorAddress")
+	let errorAddress = document.getElementById("errorAddress");
 	let errorLastN = document.getElementById("errorLastN");
 	let errorPassword = document.getElementById("errorPassword");
 	let errorPhone = document.getElementById("errorPhone");   
 	
 	// Validate fields entered by the user: name, phone, password, and email
 	if(fName.value === "" || !fName.value.match(/^[A-Za-z\s]*$/) || fName.value.length < 3){
-
-	addInvalidClass(fName,true)
+		addInvalidClass(fName,true)
 		error++;
 	} else {
 		addInvalidClass(fName, false)
@@ -71,7 +70,7 @@ function validate() {
 		addInvalidClass(fPhone,false)
 	}
 	if(fPassword.value === "" || !fPassword.value.match(/^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9]{3,8}$/) ||
-    fPassword.value.length < 3){
+    	fPassword.value.length < 3){
 		addInvalidClass(fPassword, true)
 		error++
 	}else{
@@ -82,6 +81,5 @@ function validate() {
 		checkOutForm.addEventListener("submit",(e) => {e.preventDefault(); },);
 	  } else{
 		alert("OK");
-	}
-
+	}	
 }
